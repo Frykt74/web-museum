@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${model.base.pageTitle}">Детали техники</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="fragments/navbar"></nav>
+<main class="container my-4">
+  <h1 th:text="${model.base.pageTitle}" class="text-center">Детали техники</h1>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title" th:text="${model.equipment.name}">Название</h5>
+      <p class="card-text text-muted" th:text="'Локация: ' + ${model.equipment.location}">Локация</p>
+      <p class="card-text text-muted" th:text="'Категория: ' + ${model.equipment.category}">Категория</p>
+      <p class="card-text text-muted" th:text="'Тема: ' + ${model.equipment.theme}">Тема</p>
+      <p class="card-text" th:text="'Год: ' + ${model.equipment.year}">Год</p>
+    </div>
+  </div>
+</main>
+<footer th:replace="fragments/footer"></footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="~{fragments/header :: head(${model.base.pageTitle})}"></header>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-grow-1">
+    <div class="container py-4">
+        <h1 class="text-center mb-4" th:text="${model.base().pageTitle()}">Список категорий</h1>
+
+        <div th:if="${not #lists.isEmpty(model.categories)}">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col" th:each="category : ${model.categories}">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" th:text="${category.name}">Категория</h5>
+                            <p class="card-text" th:text="${category.description}">Описание категории</p>
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a class="btn btn-secondary btn-sm"
+                                   th:href="@{/category/{id}(id=${category.id})}">Подробнее</a>
+                                <a class="btn btn-primary btn-sm"
+                                   th:href="@{/category/{id}/equipments(id=${category.id})}">Просмотр</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav th:if="${model.totalPages > 1}" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${form.page == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/category(page=${form.page - 1}, size=${form.size})}">←</a>
+                    </li>
+                    <li th:each="pageNumber : ${#numbers.sequence(1, model.totalPages)}"
+                        class="page-item" th:classappend="${pageNumber == form.page} ? 'active'">
+                        <a class="page-link" th:href="@{/category(page=${pageNumber}, size=${form.size})}"
+                           th:text="${pageNumber}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${form.page == model.totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/category(page=${form.page + 1}, size=${form.size})}">→</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

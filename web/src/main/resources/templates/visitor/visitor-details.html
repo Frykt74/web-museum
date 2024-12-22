@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{fragments/header :: head(${model.base.pageTitle})}"></header>
+
+<main class="container my-4 d-flex justify-content-center">
+    <div class="card p-4" style="max-width: 500px; width: 100%;">
+        <h1 th:text="${model.base.pageTitle}" class="text-center mb-4">Профиль</h1>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th>Фамилия</th>
+                <td th:text="${model.visitor.surname}">Фамилия</td>
+            </tr>
+            <tr>
+                <th>Имя</th>
+                <td th:text="${model.visitor.firstname}">Имя</td>
+            </tr>
+            <tr>
+                <th>Отчество</th>
+                <td th:text="${model.visitor.patronymic}">Отчество</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${model.visitor.email}">Email</td>
+            </tr>
+            <tr>
+                <th>Телефон</th>
+                <td th:text="${model.visitor.phone}">Телефон</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4" sec:authorize="hasRole('USER')">
+            <a th:href="@{/visitor/edit}" class="btn btn-primary me-2">Редактировать</a>
+        </div>
+        <div class="text-center mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Назад</a>
+        </div>
+
+        <div class="text-center mt-4" sec:authorize="hasRole('USER')">
+            <form th:action="@{/visitor/delete}" method="post">
+                <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Вы уверены, что хотите удалить свой профиль?')">Удалить профиль
+                </button>
+            </form>
+        </div>
+
+        <div class="text-center mt-4" sec:authorize="isAuthenticated()">
+            <form th:action="@{/users/logout}" method="get">
+                <button type="submit" class="btn btn-outline-warning">Выйти из профиля</button>
+            </form>
+        </div>
+
+        <div class="text-center mt-4" sec:authorize="hasRole('USER')">
+            <a th:href="@{/ticket/cart}" class="btn btn-outline-success me-2">Корзина</a>
+            <a th:href="@{/ticket/history}" class="btn btn-outline-info">История покупок</a>
+        </div>
+
+        <div class="text-center mt-4" sec:authorize="hasAnyRole('ADMIN', 'MODERATOR')">
+            <a th:href="@{/admin/note}" class="btn btn-outline-dark">Управление заметками</a>
+        </div>
+
+        <div class="text-center mt-4" sec:authorize="hasAnyRole('ADMIN', 'MODERATOR')">
+            <a th:href="@{/equipment}" class="btn btn-success">Управление техникой</a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

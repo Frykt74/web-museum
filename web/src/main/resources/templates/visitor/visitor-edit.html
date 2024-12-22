@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="~{fragments/header :: head(${model.base.pageTitle})}"></header>
+
+<body class="d-flex flex-column min-vh-100">
+<main class="container my-4">
+    <h1 th:text="${model.base.pageTitle}" class="text-center">Редактирование посетителя</h1>
+
+    <form th:action="@{/visitor/edit}" th:object="${form}" method="post" class="row g-3">
+        <div class="col-md-6">
+            <label for="surname" class="form-label">Фамилия</label>
+            <input type="text" th:field="*{surname}" id="surname" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+        </div>
+        <div class="col-md-6">
+            <label for="firstname" class="form-label">Имя</label>
+            <input type="text" th:field="*{firstname}" id="firstname" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>
+        </div>
+        <div class="col-md-6">
+            <label for="patronymic" class="form-label">Отчество</label>
+            <input type="text" th:field="*{patronymic}" id="patronymic" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" th:value="${form.email}" required>
+            <div th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></div>
+        </div>
+        <div class="col-md-6">
+            <label for="phone" class="form-label">Телефон</label>
+            <input type="text" class="form-control" id="phone" name="phone" th:value="${form.phone}" required>
+            <div th:if="${#fields.hasErrors('phone')}" class="text-danger" th:errors="*{phone}"></div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a th:href="@{/visitor}" class="btn btn-secondary">Отмена</a>
+        </div>
+
+    </form>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="~{fragments/header :: head(${viewModel.base.pageTitle})}"></header>
+
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="container my-4">
+    <div class="bg-dark text-white text-center py-3">
+        <h1>Музей советской и российской техники</h1>
+    </div>
+    <p>
+        Добро пожаловать в один из крупнейших музеев гражданской и военной техники! Наш музей предоставляет уникальную
+        возможность увидеть редкие экспонаты, включая легендарные танки, самолеты, автомобили и другие шедевры
+        инженерной мысли.
+    </p>
+    <p>
+        Мы рады приветствовать посетителей всех возрастов и предлагаем интересные экскурсии, интерактивные зоны и
+        тематические выставки.
+    </p>
+    <div class="text-center">
+        <img th:src="'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Views_of_Verkhnyaya_Pyshma_-_12.jpg/2560px-Views_of_Verkhnyaya_Pyshma_-_12.jpg'"
+             alt="Фото музея" class="img-fluid rounded"/>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

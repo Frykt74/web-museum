@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<header th:replace="~{fragments/header :: head(${model.base.pageTitle})}"></header>
+
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<div class="container mt-5">
+    <h1 class="mb-4">Корзина</h1>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Посетитель</th>
+                    <th>Локация</th>
+                    <th>Дата</th>
+                    <th>Оплата</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="ticket, iterStat : ${model.tickets}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${ticket.visitor}"></td>
+                    <td th:text="${ticket.location}"></td>
+                    <td th:text="${#dates.format(ticket.date, 'dd.MM.yyyy')}"></td>
+                    <td>
+                        <form th:if="${!ticket.isPaid}"
+                              th:action="@{/ticket/cart/pay/{ticketId}(ticketId=${ticket.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-sm btn-primary">Оплатить</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Пагинация -->
+    <nav th:if="${model.totalPages > 1}" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Кнопка "Назад" -->
+            <li class="page-item" th:classappend="${form.page == 1} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/ticket/cart(page=${form.page - 1}, size=${form.size})}">←</a>
+            </li>
+            <!-- Номера страниц -->
+            <li th:each="pageNumber : ${#numbers.sequence(1, model.totalPages)}"
+                class="page-item" th:classappend="${pageNumber == form.page} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/ticket/cart(page=${pageNumber}, size=${form.size})}"
+                   th:text="${pageNumber}"></a>
+            </li>
+            <!-- Кнопка "Вперёд" -->
+            <li class="page-item" th:classappend="${form.page == model.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/ticket/cart(page=${form.page + 1}, size=${form.size})}">→</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

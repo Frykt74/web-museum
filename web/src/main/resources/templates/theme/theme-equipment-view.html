@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:replace="~{fragments/header :: head(${model.base.pageTitle})}"></header>
+
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0 py-4">
+    <div class="container">
+        <h1 class="text-center mb-4">Техника из выбранной темы</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8" th:each="item : ${model.equipmentLocations}">
+                <div class="card mb-4">
+                    <img th:src="${item.image}" class="card-img-top" alt="Изображение техники">
+                    <div class="card-body text-center">
+                        <h5 class="card-title" th:text="${item.equipmentName}">Название техники</h5>
+                        <p class="card-text" th:text="${item.equipmentDescription}">Описание техники</p>
+                        <p class="card-text text-muted" th:text="'Локация: ' + ${item.locationName}">Локация</p>
+                        <form sec:authorize="hasRole('USER')" th:action="@{/ticket/add-to-cart}" method="post">
+                            <input type="hidden" name="locationId" th:value="${item.locationId}"/>
+                            <input type="hidden" name="visitorId" th:value="${model.visitorId}"/>
+                            <input type="hidden" name="redirectUrl" th:value="${model.currentUrl}"/>
+                            <button type="submit" class="btn btn-primary">Добавить билет в корзину</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
